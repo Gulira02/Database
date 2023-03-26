@@ -3,54 +3,45 @@ import db.Database;
 import model.Group;
 import service.GroupService;
 import java.util.*;
-import java.util.stream.Collectors;
+public class GroupServiceImpl  implements GroupService {
+    private List<Database> databases;
 
-    public class GroupServiceImpl  implements GroupService {
-        private List<Database> databases;
+    public GroupServiceImpl(List<Database> databases) {
+        this.databases = databases;
+    }
 
-     /*   public GroupServiceImpl(int id, String name, String description, int year, List<Database> databases) {
-            super(id, name, description, year);
-            this.databases = databases;
-        }*/
+    @Override
+    public String addNewGroup(Group group) {
 
-
-        public GroupServiceImpl(List<Database> databases) {
-            this.databases = databases;
+        for (Database database : databases) {
+            database.getGroups().add(group);
+            System.out.println(group);
         }
 
-        @Override
-        public String addNewGroup(Group group) {
+        return "Group successfully added";
+    }
 
-            for (Database database : databases) {
-                database.getGroups().add(group);
-                System.out.println(group);
-            }
-
-            return "Gruppa achyldy";
-        }
-
-        @Override
-        public String getGroupById(int id) {
-            for (Database database1 : databases) {
-                for (Group group1 :database1.getGroups()) {
-                    if(group1.getId()==id){
-                        System.out.println(group1);
-                    }
+    @Override
+    public String getGroupById(int id) {
+        for (Database database1 : databases) {
+            for (Group group1 : database1.getGroups()) {
+                if (group1.getId() == id) {
+                    System.out.println(group1);
                 }
             }
-            return "Gruppanyn idsi";
         }
+        return "ID groups";
+    }
 
-        @Override
-        public List<Group> getAllGroups() {
-            List<Group> groups = new ArrayList<>();
-            for (Database database : databases) {
-                groups.addAll(database.getGroups());
-
-            }
-            return groups;
-
+    @Override
+    public List<Group> getAllGroups() {
+        List<Group> groups = new ArrayList<>();
+        for (Database database : databases) {
+            groups.addAll(database.getGroups());
         }
+        return groups;
+
+    }
 
         @Override
         public Database updateGroupName(int id, String groupName) {
@@ -58,69 +49,62 @@ import java.util.stream.Collectors;
                 for (Group  group :database.getGroups() ) {
                     if(group.getId()==(id)){
                         group.setName(groupName);
+                        System.out.println(group);
                     }
                 }
 
-                return database;
             }
-
-
             return null;
         }
 
-        @Override
-        public List<Group> filterByYear(int year, String ascDesc) {
-            // (asc ди басканда ascending, desc ди басканда descending кылып сорттосун)
-
-            List<Group> groupList = new ArrayList<>();
-            List<Group> filteredList = new ArrayList<>();
-            for (Group group : groupList) {
-                if (group.getYear() == year) {
-                    filteredList.add(group);
-                }
-            }
-            Comparator<Group> yearComparator = new Comparator<>() {
-                public int compare(Group g1, Group g2) {
-                    if (ascDesc.equalsIgnoreCase("asc")) {
-                        return g1.getYear() - g2.getYear();
-                    } else {
-                        return g2.getYear() - g1.getYear();
-                    }
-                }
-            };
-            Collections.sort(filteredList, yearComparator);
-            return filteredList;
+    @Override
+    public List<Group> filterByYear(int year, String ascDesc) {
+        List<Group> groups = new ArrayList<>();
+        for (Database database : databases) {
+            groups.addAll(database.getGroups());
         }
-
-        @Override
-        public List<Group> sortGroupByYear(String ascDesc) {
-
-            List<Group> groupList = new ArrayList<>();
-            Comparator<Group> yearComparator = new Comparator<>() {
-                public int compare(Group o1, Group o2) {
-                    if (ascDesc.equalsIgnoreCase("asc")) {
-                        return o1.getYear() - o2.getYear();
-                    } else {
-                        return o2.getYear() - o1.getYear();
-                    }
-                }
-            };
-            Collections.sort(groupList, yearComparator);
-            return groupList;
+        List<Group> group1;
+        if (ascDesc.equalsIgnoreCase("asc")) {//ascending восходящий,
+            group1 = groups.stream().filter(x -> x.getYear() > year).toList();
+        } else {
+            group1 = groups.stream().filter(x -> x.getYear() < year).toList();//  descending нисходящий
         }
-
-        @Override
-        public void deleteGroupById(int id) {
-            for (Database database1 : databases) {
-                for (Group group : database1.getGroups()) {
-                    if(group.getId()==id){
-                        databases.remove(group);
-
-                    }
-
-                }
-            }
-        }
+        return group1;
     }
+
+    @Override
+    public List<Group> sortGroupByYear(String ascDesc) {
+        List<Group> groups = new ArrayList<>();
+        for (Database database : databases) {
+            groups.addAll(database.getGroups());
+        }
+        List<Group> group;
+        if (ascDesc.equalsIgnoreCase("asc")) {
+            group = groups.stream().sorted(Comparator.comparing(Group::getYear))
+                    .toList();
+        }
+        return groups;
+    }
+
+    @Override
+    public void deleteGroupById(int id) {
+        for (Database database1 : databases) {
+            Iterator<Group> iterator = database1.getGroups().iterator();
+            while (iterator.hasNext()) {
+                Group group = iterator.next();
+                if (group.getId() == id) {
+                    iterator.remove();
+                }
+            }
+
+
+        }
+
+    }
+
+}
+
+
+
 
 

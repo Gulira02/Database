@@ -36,7 +36,11 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> getAllStudents() {
-        return null;
+        List<Student> students = new ArrayList<>();
+        for (Database database : databases) {
+            students.addAll(database.getStudents());
+        }
+        return students;
     }
 
     @Override
@@ -47,44 +51,40 @@ public class StudentServiceImpl implements StudentService {
                     student.setFullName(fullName);
                 }
             }}
-        return "Student full name ozgoruldu ";
+        return "Successfully changed the name of the students ";
     }
-
 
     @Override
     public List<Student> filterByGender() {
-        //with stream (1 ди басканда female, 2 ни басканда male кылып фильтрлесин)
-
         for (Database database : databases) {
             for (Student student : database.getStudents()) {
-                String input= new Scanner(System.in).nextLine();
-                if(input.equals("1")){
-                database.getStudents().stream().filter(gen->gen.getGender()
-                        .equals(Gender.FEMALE)).toList().forEach(System.out::println);
-                    } else if (input.equals("2")) {
-                    database.getStudents().stream().filter(gen->gen.getGender()
+                String input = new Scanner(System.in).nextLine();
+                if (input.equals("1")) {
+                    database.getStudents().stream().filter(gen -> gen.getGender()
+                            .equals(Gender.FEMALE)).toList().forEach(System.out::println);
+                } else if (input.equals("2")) {
+                    database.getStudents().stream().filter(gen -> gen.getGender()
                             .equals(Gender.MALE)).toList().forEach(System.out::println);
                 }
-                return Collections.singletonList(student);
             }
-                }
-        return null;
         }
-
-
+        return null;
+    }
 
     @Override
     public void deleteStudentById(int id) {
         for (Database database1 : databases) {
-            for (Student student : database1.getStudents()) {
-                if(student.getId()==id){
-                    databases.remove(student);
-
+            Iterator<Student> iterator = database1.getStudents().iterator();
+            while (iterator.hasNext()) {
+                Student student = iterator.next();
+                if (student.getId() == id) {
+                    iterator.remove();
                 }
-
             }
+
+
         }
     }
-    }
+}
 
 
