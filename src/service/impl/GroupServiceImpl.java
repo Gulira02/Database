@@ -5,13 +5,13 @@ import service.GroupService;
 import java.util.*;
 import java.util.stream.Collectors;
 
-    public class GroupServiceImpl extends Group implements GroupService {
+    public class GroupServiceImpl  implements GroupService {
         private List<Database> databases;
 
-        public GroupServiceImpl(int id, String name, String description, int year, List<Database> databases) {
+     /*   public GroupServiceImpl(int id, String name, String description, int year, List<Database> databases) {
             super(id, name, description, year);
             this.databases = databases;
-        }
+        }*/
 
 
         public GroupServiceImpl(List<Database> databases) {

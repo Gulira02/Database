@@ -60,25 +60,26 @@ public class Main {
                    int com = new Scanner(System.in).nextInt();
                 switch (com) {
                     case 1:
-                        groupService.addNewGroup((new Group(9,"Python","fd",12)));
+                        System.out.println(groupService.addNewGroup((new Group(9, "Python", "fd", 12))));
                         break;
                     case 2:
-                        groupService.getGroupById((9));
+                        System.out.println(groupService.getGroupById((9)));
                         break;
                     case 3:
-                        groupService.getAllGroups();
+                        System.out.println(groupService.getAllGroups());
                         break;
                     case 4:
-                        groupService.updateGroupName(9, "Python");
+                        System.out.println(groupService.updateGroupName(70, "Py"));
                         break;
                     case 5:
-                        groupService.filterByYear(12, "asc");
+                        System.out.println(groupService.filterByYear(12, "asc"));
                         break;
                     case 6:
-                        groupService.sortGroupByYear("desc");
+                        System.out.println(groupService.sortGroupByYear("desc"));
                         break;
                     case 7:
                         groupService.deleteGroupById(1);
+
                         break;
                    /* case 8:
                         studentService.addStudent((Student) students);
