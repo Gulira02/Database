@@ -2,6 +2,7 @@ package db;
 
 import model.Group;
 import model.Student;
+import service.impl.GroupServiceImpl;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class Database {
         this.groups = groups;
         this.students = students;
     }
-    public Database(){}
+    public Database(GroupServiceImpl groupService){}
 
     public List<Group> getGroups() {
         return groups;

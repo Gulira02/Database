@@ -7,6 +7,11 @@ import java.util.*;
 
 public class StudentServiceImpl implements StudentService {
     private List<Database>databases;
+
+    public StudentServiceImpl(List<Database> databases) {
+        this.databases = databases;
+    }
+
     @Override
     public Student addStudent(Student student) {
         for (Database database : databases) {

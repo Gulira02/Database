@@ -5,7 +5,6 @@ import model.Group;
 import model.Student;
 import service.impl.GroupServiceImpl;
 import service.impl.StudentServiceImpl;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -23,19 +22,15 @@ public class Main {
         students.add(new Student("Serhan",4,23, Gender.MALE));
         students.add(new Student("Kiril",5,24, Gender.MALE));
 
-        GroupServiceImpl groupService=new GroupServiceImpl();
-        Group group1=new Group(1,"java","junior",6);
-        Group group2=new Group(2,"java3","junior",8);
 
-
-        StudentServiceImpl studentService=new StudentServiceImpl();
-
-
+        List<Database> databases = List.of(new Database(groups,students));
+        GroupServiceImpl groupService=new GroupServiceImpl(databases);
+        StudentServiceImpl studentService=new StudentServiceImpl(databases);
 
 
                 while (true) {
                try {
-                   int com = new Scanner(System.in).nextInt();
+
 
                 System.out.println("""
                         1: Add New Group(Group group);
@@ -62,31 +57,39 @@ public class Main {
                          
                         12: Delete student by Id""");
 
+                   int com = new Scanner(System.in).nextInt();
                 switch (com) {
                     case 1:
-                        groupService.addNewGroup((new Group(1,"Java","Back-End",12)));
+                        groupService.addNewGroup((new Group(9,"Python","fd",12)));
+                        break;
                     case 2:
-                        groupService.getGroupById((1));
+                        groupService.getGroupById((9));
+                        break;
                     case 3:
                         groupService.getAllGroups();
+                        break;
                     case 4:
-                        groupService.updateGroupName(4, "Python");
+                        groupService.updateGroupName(9, "Python");
+                        break;
                     case 5:
-                        groupService.filterByYear(2, "asc");
+                        groupService.filterByYear(12, "asc");
+                        break;
                     case 6:
                         groupService.sortGroupByYear("desc");
+                        break;
                     case 7:
                         groupService.deleteGroupById(1);
-                    case 8:
-                        studentService.addStudent();
+                        break;
+                   /* case 8:
+                        studentService.addStudent((Student) students);
                     case 9:
-                        studentService.getStudentById();
+                        studentService.getStudentById(1);
                     case 10:
                         studentService.getAllStudents();
                     case 11:
                         studentService.filterByGender();
                     case 12:
-                        studentService.deleteStudentById();
+                        studentService.deleteStudentById(2);*/
 
                     default:
                         System.out.println("Mynday comanda jok");

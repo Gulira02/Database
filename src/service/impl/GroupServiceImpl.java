@@ -8,6 +8,16 @@ import java.util.stream.Collectors;
     public class GroupServiceImpl extends Group implements GroupService {
         private List<Database> databases;
 
+        public GroupServiceImpl(int id, String name, String description, int year, List<Database> databases) {
+            super(id, name, description, year);
+            this.databases = databases;
+        }
+
+
+        public GroupServiceImpl(List<Database> databases) {
+            this.databases = databases;
+        }
+
         @Override
         public String addNewGroup(Group group) {
 
@@ -33,8 +43,12 @@ import java.util.stream.Collectors;
 
         @Override
         public List<Group> getAllGroups() {
-            List<Group> groups =new ArrayList<>();
-            return new ArrayList<>(groups);
+            List<Group> groups = new ArrayList<>();
+            for (Database database : databases) {
+                groups.addAll(database.getGroups());
+
+            }
+            return groups;
 
         }
 
