@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
         @Override
         public List<Group> getAllGroups() {
             List<Group> groups =new ArrayList<>();
-            return groups.stream().collect(Collectors.toList());
+            return new ArrayList<>(groups);
 
         }
 

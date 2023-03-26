@@ -93,6 +93,7 @@ public class Main {
 
                 }
 
+
                    throw new MyException("Wrong");
 
             }
